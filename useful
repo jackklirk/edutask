@@ -1,0 +1,73 @@
+# To activate docker desktop integration with WSL2
+# On powelshell
+wsl --set-default-version 2
+
+# Virtual env
+	#Update/upgrade
+	sudo apt update
+	sudo apt upgrade
+
+	# Instal pip
+	sudo apt-get install python3-pip
+
+	# Instal venv
+	sudo pip3 install virtualenv
+
+	# Create venv
+	virtualenv venv
+
+	# Activate venv
+	source venv/bin/activate
+
+	# Deactivate
+	deactivate
+
+# GIT
+	# Identify yourself
+	git config --global user.email "you@example.com"
+	git config --global user.name "Your Name"
+
+	# New branch
+	git checkout -b (new branch)
+
+	# Switch to an existing branch
+	git switch (branch name)
+
+	# If the branch was created remotely
+	git fetch
+
+	# To show the current branch
+	git branch --show-current
+	# or to show all
+	git branch 
+
+	# Check changes
+	git status
+
+	# Add changes
+	git add .
+	
+	# Add files
+	git add (filename)
+	
+	# Commit
+	git commit -m "Commit message"
+
+	# Push changes to a remote repo
+	git push origin (branch name)
+
+	# Pull changes
+	# Important before merging or pushing
+	git pull origin main
+
+	# Merge branches
+	git checkout main
+	git merge (branch name)
+
+	# In case of conflicts they must be fixed manualy. After the fix:
+	git add .
+	git commit -m "Resolved conflicts"
+
+	# After the merge the branch is no longer needed. To delete:
+	git branch -d (branch name)
+
