@@ -58,10 +58,10 @@ wsl --set-default-version 2
 
 	# Pull changes
 	# Important before merging or pushing
-	git pull origin main
+	git pull origin master
 
 	# Merge branches
-	git checkout main
+	git checkout master
 	git merge (branch name)
 
 	# In case of conflicts they must be fixed manualy. After the fix:
