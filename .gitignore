@@ -32,3 +32,4 @@ data/db/
 *.coverage
 backend/.venv/
 backend/test/solutions/
+package-lock.json
