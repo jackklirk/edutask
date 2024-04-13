@@ -44,5 +44,5 @@ def test_get_user_by_email_Double(capsys):
     uc = UserController(dao=mockedDAO)
     uc.get_user_by_email('jandoe@test.se')
     captured = capsys.readouterr()
-    assert captured.out == 'Error: more than one user found with mail jandoe@test.se'
+    assert captured.out == 'Error: more than one user found with mail jandoe@test.se\n'
 
