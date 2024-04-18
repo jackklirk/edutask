@@ -1,7 +1,6 @@
 import pytest
-from unittest.mock import patch
+from unittest.mock import MagicMock
 from src.controllers.usercontroller import UserController
-from unittest.mock import patch, MagicMock
 
 
 @pytest.mark.assignment2
