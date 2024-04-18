@@ -46,3 +46,11 @@ def test_get_user_by_email_Double(capsys):
     captured = capsys.readouterr()
     assert captured.out == 'Error: more than one user found with mail jandoe@test.se\n'
 
+@pytest.mark.assignment2
+@pytest.mark.parametrize('email, obj', [('jandoe@test.se', Exception)])
+def test_get_user_by_email_Exception(email, obj):
+    mockedDAO = MagicMock()
+    mockedDAO.find.return_value = obj
+    uc = UserController(dao=mockedDAO)
+    with pytest.raises(Exception):
+        uc.get_user_by_email(email)
