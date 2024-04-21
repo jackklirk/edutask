@@ -6,12 +6,14 @@ from dotenv import dotenv_values
 
 from src.util.dao import DAO
 
-# We should remove this, just testing the connections with existing collection
-@pytest.mark.assignment3
-def test_connection():
-    testDao = DAO('todo')
-    print(testDao.collection.name)
-    assert testDao.collection.name == 'todo'
+
+class TestConnection:
+    @pytest.mark.assignment3
+    def test_mongodb_connection(self): 
+        Local_Mongo_URL = dotenv_values('.env').get('MONGO_URL')
+        Mongo_URL = os.environ.get('MONGO_URL', Local_Mongo_URL)
+        client = pymongo.MongoClient(Mongo_URL)
+        assert client.admin.command("ping")["ok"] != 0.0
 
 class TestCreation:
     @pytest.mark.assignment3
@@ -48,22 +50,26 @@ class TestCreation:
         # Patch the getValidator to return the fabricated one
         with patch('src.util.dao.getValidator', autospec=True) as mocked_validator:
             mocked_validator.return_value = fabricated_validator
-            
-            # Create collection (since it does not exists) and return
-            yield DAO(fabricated_collection)
-
-            # After the return the collection can be deleted
-            # https://www.w3schools.com/python/python_mongodb_drop_collection.asp
-            # Using the dao connection as rerference
+            # Connect with DB
             LOCAL_MONGO_URL = dotenv_values('.env').get('MONGO_URL')
             MONGO_URL = os.environ.get('MONGO_URL', LOCAL_MONGO_URL)
             client = pymongo.MongoClient(MONGO_URL)
             database = client.edutask
+            # Drop collection if it exist to make it sure we are starting with a clean one
+            database[fabricated_collection].drop()
+            #database[fabricated_collection].create_index([("PN", 1)], unique=True)
+            # Create collection (since it does not exists) and return
+            yield DAO(fabricated_collection)
+            
+            # After the return/yield the collection can be deleted
             database[fabricated_collection].drop()
 
 
     @pytest.mark.assignment3
-    def test_creation_success_1(self, sut):
+    def test_id1_creation_success_1(self, sut):
+        """
+        All keys filled according to the validator
+        """
         test_data = {
             "description": "Some mocked data",
             "mock": True,
@@ -74,23 +80,39 @@ class TestCreation:
         assert create_return['mock'] == test_data['mock']
 
     @pytest.mark.assignment3
-    def test_creation_fail_1(self, sut):
+    def test_id2_creation_success_2(self, sut):
+        """
+        Just the required keys
+        """
         test_data = {
-            "mock": True
+            "description": "Some more mocked data",
+            "PN": 2000000001
+        }
+        create_return = sut.create(test_data)
+        assert create_return['description'] == test_data['description']
+        assert create_return['PN'] == test_data['PN']
+
+    @pytest.mark.assignment3
+    def test_id3_creation_fail_1(self, sut):
+        """
+        Missing required key "description"
+        """
+        test_data = {
+            "mock": True,
+            "PN": 123123132
         }
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
-                sut.create(test_data)
+            sut.create(test_data)
 
 
     # This one fails problably because unique keys should have in app validation, not just on json
     # https://www.mongodb.com/community/forums/t/how-to-make-schema-field-unique/107585 
     @pytest.mark.assignment3
-    def test_creation_fail_2(self, sut):
+    def test_id4_creation_fail_2(self, sut):
         """
-        Creating same object twice
+        Creating two objects with same unique key
         """
         test_data = {
-            "_id": 1,
             "description": "Some more mocked data",
             "mock": True,
             "PN": 2000000000
@@ -103,7 +125,43 @@ class TestCreation:
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
                 sut.create(test_data)
 
+    @pytest.mark.assignment3
+    def test_id5_creation_fail_3(self, sut):
+        """
+        Creating with wrong datatypes values on keys
+        """
+        test_data = {
+            "description": 0.5,
+            "mock": 1,
+            "PN": True
+        }
 
+        with pytest.raises(pymongo.errors.WriteError) as excinfo:
+                sut.create(test_data)
+
+    @pytest.mark.assignment3
+    def test_id6_creation_fail_5(self, sut):
+        """
+        Empty  argument provided
+        """
+        test_data = {
+        }
+
+        # First creation should work
+        # Second should raise error since description is unique
+        with pytest.raises(pymongo.errors.WriteError) as excinfo:
+            sut.create(test_data)
+
+
+    @pytest.mark.assignment3
+    def test_id7_creation_fail_4(self, sut):
+        """
+        No argument provided
+        """
+
+        # Second should raise error since description is unique
+        with pytest.raises(TypeError) as excinfo:
+                sut.create()
 
 
 
