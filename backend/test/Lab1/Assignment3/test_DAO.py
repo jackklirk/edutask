@@ -105,7 +105,7 @@ class TestCreation:
         """
         Creating two objects with same unique key
         """
-       test_data = {
+        test_data = {
             "description": "Some mocked data",
             "mock": True,
             "PN": 2000000000
