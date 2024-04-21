@@ -90,6 +90,7 @@ class TestCreation:
         Creating same object twice
         """
         test_data = {
+            "_id": 1,
             "description": "Some more mocked data",
             "mock": True,
             "PN": 2000000000
@@ -99,7 +100,7 @@ class TestCreation:
         sut.create(test_data)
 
         # Second should raise error since description is unique
-        with pytest.raises(Exception) as excinfo:
+        with pytest.raises(pymongo.errors.WriteError) as excinfo:
                 sut.create(test_data)
 
 
