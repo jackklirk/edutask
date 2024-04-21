@@ -105,14 +105,11 @@ class TestCreation:
         """
         Creating two objects with same unique key
         """
-        test_data = {
-            "description": "Some more mocked data",
+       test_data = {
+            "description": "Some mocked data",
             "mock": True,
-            "PN": 2000000002
+            "PN": 2000000000
         }
-
-        # First creation should work
-        sut.create(test_data)
 
         # Second should raise error since description is unique
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
