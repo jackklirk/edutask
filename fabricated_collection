@@ -1,0 +1,1 @@
+{"$jsonSchema": {"bsonType": "object", "required": ["just"], "properties": {"bsonType": "string", "just": "mocking", "uniqueItems": true}}}
