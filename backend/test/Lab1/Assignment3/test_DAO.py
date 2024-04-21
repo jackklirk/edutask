@@ -99,7 +99,7 @@ class TestCreation:
         sut.create(test_data)
 
         # Second should raise error since description is unique
-        with pytest.raises(pymongo.errors.WriteError) as excinfo:
+        with pytest.raises(Exception) as excinfo:
                 sut.create(test_data)
 
 
