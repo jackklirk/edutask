@@ -6,7 +6,7 @@ from unittest.mock import patch, MagicMock
 
 @pytest.mark.assignment2
 @pytest.mark.parametrize('email, obj', [('jandoe@test.se', {'Name': 'Jane'}), ('jan.doe@test.se', {'Name': 'Jane'})])
-def test_get_user_by_email_success(email, obj):
+def test_id1_2_get_user_by_email_success(email, obj):
     mockedDAO = MagicMock()
     mockedDAO.find.return_value = [obj]
     uc = UserController(dao=mockedDAO)
@@ -16,7 +16,7 @@ def test_get_user_by_email_success(email, obj):
 
 @pytest.mark.assignment2
 @pytest.mark.parametrize('email, obj', [('@test.se', ValueError), ('test.se', ValueError), ('se', ValueError), ('jan@test', ValueError), ('jan@.se', ValueError)])
-def test_get_user_by_email_failure(email, obj):
+def test_id3_7_get_user_by_email_failure(email, obj):
     mockedDAO = MagicMock()
     mockedDAO.find.return_value = [obj]
     uc = UserController(dao=mockedDAO)
@@ -28,7 +28,7 @@ def test_get_user_by_email_failure(email, obj):
 
 @pytest.mark.assignment2
 @pytest.mark.parametrize('email, obj', [('Hello@World.se', None)])
-def test_get_user_by_email_None(email, obj):
+def test_id8_get_user_by_email_None(email, obj):
     mockedDAO = MagicMock()
     mockedDAO.find.return_value = [None]
     uc = UserController(dao=mockedDAO)
@@ -36,7 +36,7 @@ def test_get_user_by_email_None(email, obj):
     assert uc.get_user_by_email(email) == obj
 
 @pytest.mark.assignment2
-def test_get_user_by_email_Double(capsys):
+def test_id9_get_user_by_email_Double(capsys):
     user1 = {'firstName': 'Jane', 'lastName': 'Doe', 'email': 'jandoe@test.se'}
     user2 = {'firstName': 'John', 'lastName': 'Doe', 'email': 'jandoe@test.se'}
     mockedDAO = MagicMock()
@@ -48,7 +48,7 @@ def test_get_user_by_email_Double(capsys):
 
 @pytest.mark.assignment2
 @pytest.mark.parametrize('email, obj', [('jandoe@test.se', Exception)])
-def test_get_user_by_email_Exception(email, obj):
+def test_id10_get_user_by_email_Exception(email, obj):
     mockedDAO = MagicMock()
     mockedDAO.find.return_value = obj
     uc = UserController(dao=mockedDAO)
