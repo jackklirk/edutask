@@ -14,9 +14,6 @@ describe('R8UC1', () => {
         uid = response.body._id.$oid
         name = user.firstName + ' ' + user.lastName
         email = user.email
-        // then() works async, it runs just after the previous statment 
-        // looks like the request must be in the "then()" to the id to be defined
-        // https://docs.cypress.io/guides/core-concepts/variables-and-aliases#Closures
         cy.request({
           method: 'POST',
           url: `http://localhost:5000/tasks/create`,
@@ -34,7 +31,6 @@ describe('R8UC1', () => {
   })
   
   beforeEach(function () {
-      // enter the main main page
       cy.visit('http://localhost:3000')
       cy.contains('div', 'Email Address')
       .find('input[type=text]')
@@ -102,9 +98,6 @@ describe('R8UC2', () => {
         uid = response.body._id.$oid
         name = user.firstName + ' ' + user.lastName
         email = user.email
-        // then() works async, it runs just after the previous statment
-        // looks like the request must be in the "then()" to the id to be defined
-        // https://docs.cypress.io/guides/core-concepts/variables-and-aliases#Closures
         cy.request({
           method: 'POST',
           url: `http://localhost:5000/tasks/create`,
@@ -122,7 +115,6 @@ describe('R8UC2', () => {
   })
 
   beforeEach(function () {
-      // enter the main main page
       cy.visit('http://localhost:3000')
       cy.contains('div', 'Email Address')
       .find('input[type=text]')
@@ -134,20 +126,6 @@ describe('R8UC2', () => {
       cy.contains('div.title-overlay', 'talk to IT')
       .click()
     })
-      
-    
-    // beforeEach(function () {
-    //   // enter the main main page
-    //   cy.visit('http://localhost:3000')
-    //   cy.contains('div', 'Email Address')
-    //   .find('input[type=text]')
-    //   .type(email)
-    //   cy.get('form')
-    //   .submit()
-    //   cy.contains('div.title-overlay', 'talk to IT')
-    //   //cy.get('img')
-    //   .click()
-    // })
 
   it('ID 1 - Mark todo as done', () => {
     
@@ -170,7 +148,6 @@ describe('R8UC2', () => {
   })
 
   after(function () {
-    // clean up by deleting the user from the database
     cy.request({
       method: 'DELETE',
       url: `http://localhost:5000/users/${uid}`
@@ -211,7 +188,6 @@ describe('R8UC3', () => {
   })
 
   beforeEach(function () {
-      // enter the main main page
       cy.visit('http://localhost:3000')
       cy.contains('div', 'Email Address')
       .find('input[type=text]')
@@ -230,7 +206,6 @@ describe('R8UC3', () => {
   })
 
   after(function () {
-    // clean up by deleting the user from the database 
     cy.request({
       method: 'DELETE',
       url: `http://localhost:5000/users/${uid}`
