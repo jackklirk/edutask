@@ -17,8 +17,11 @@ task_blueprint = Blueprint('task_blueprint', __name__)
 @cross_origin()
 def create():
     try:
+        print("INFORMATION: ------------>", request.form)
         data = request.form.to_dict(flat=False)
         userid = data['userid'][0]
+        print(data['userid'])
+        print(userid)
         # convert all non-array fields back to simple values
         for key in ['title', 'description', 'start', 'due', 'userid', 'url']:
             if key in data and isinstance(data[key], list):
