@@ -8,7 +8,7 @@ from src.util.dao import DAO
 
 
 class TestConnection:
-    @pytest.mark.assignment3
+    @pytest.mark.integration
     def test_mongodb_connection(self): 
         Local_Mongo_URL = dotenv_values('.env').get('MONGO_URL')
         Mongo_URL = os.environ.get('MONGO_URL', Local_Mongo_URL)
@@ -16,7 +16,7 @@ class TestConnection:
         assert client.admin.command("ping")["ok"] != 0.0
 
 class TestCreation:
-    @pytest.mark.assignment3
+    @pytest.mark.integration
     # System under test will be a DAO object from the file dao.py
     @pytest.fixture
     def sut(self):
@@ -110,7 +110,7 @@ class TestCreation:
             "mock": True,
             "PN": 2000000000
         }
-
+        sut.create(test_data)
         # Second should raise error since description is unique
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
                 sut.create(test_data)
