@@ -17,7 +17,6 @@ task_blueprint = Blueprint('task_blueprint', __name__)
 @cross_origin()
 def create():
     try:
-        print("INFORMATION: ------------>", request.form)
         data = request.form.to_dict(flat=False)
         userid = data['userid'][0]
         print(data['userid'])
