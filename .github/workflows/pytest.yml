@@ -10,7 +10,12 @@ on:
 jobs:
     test:
         runs-on: ubuntu-latest
-
+        container: ubuntu
+        services:
+            mongodb:
+                image: mongo
+                ports:
+                - 27017:27017
 
         steps:
           - uses: actions/checkout@v3
