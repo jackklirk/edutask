@@ -61,7 +61,7 @@ class TestCreation:
             database[fabricated_collection].drop()
 
 
-    @pytest.mark.assignment3
+    @pytest.mark.integration
     def test_id1_creation_success_1(self, sut):
         """
         All keys filled according to the validator
@@ -75,7 +75,7 @@ class TestCreation:
         assert create_return['description'] == test_data['description']
         assert create_return['mock'] == test_data['mock']
 
-    @pytest.mark.assignment3
+    @pytest.mark.integration
     def test_id2_creation_success_2(self, sut):
         """
         Just the required keys
@@ -88,7 +88,7 @@ class TestCreation:
         assert create_return['description'] == test_data['description']
         assert create_return['PN'] == test_data['PN']
 
-    @pytest.mark.assignment3
+    @pytest.mark.integration
     def test_id3_creation_fail_1(self, sut):
         """
         Missing required key "description"
@@ -100,7 +100,7 @@ class TestCreation:
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
             sut.create(test_data)
 
-    @pytest.mark.assignment3
+    @pytest.mark.integration
     def test_id4_creation_fail_2(self, sut):
         """
         Creating two objects with same unique key
@@ -115,7 +115,7 @@ class TestCreation:
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
                 sut.create(test_data)
 
-    @pytest.mark.assignment3
+    @pytest.mark.integration
     def test_id5_creation_fail_3(self, sut):
         """
         Create with wrong datatypes values on keys
@@ -129,7 +129,7 @@ class TestCreation:
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
                 sut.create(test_data)
 
-    @pytest.mark.assignment3
+    @pytest.mark.integration
     def test_id6_creation_fail_5(self, sut):
         """
         Empty  argument provided
@@ -140,7 +140,7 @@ class TestCreation:
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
             sut.create(test_data)
 
-    @pytest.mark.assignment3
+    @pytest.mark.integration
     def test_id7_creation_fail_4(self, sut):
         """
         No argument provided
