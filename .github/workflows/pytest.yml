@@ -27,8 +27,8 @@ jobs:
                 pip install -r ./backend/requirements.pip
           - name: Unit Tests
             run: |
-                python -m pytest -m assignment1
+                python -m pytest -m unit
 
           - name: Integration Tests
             run: |
-                python -m pytest -m assignment2
+                python -m pytest -m integration
