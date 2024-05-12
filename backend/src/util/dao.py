@@ -36,6 +36,8 @@ class DAO:
         if collection_name not in database.list_collection_names():
             validator = getValidator(collection_name)
             database.create_collection(collection_name, validator=validator)
+
+            # Fixing problem when uniqueItems doesn't work as developer intended 
             for object in validator["$jsonSchema"]["properties"]:
                 obj = dict(validator["$jsonSchema"]["properties"][object])
                 if  "uniqueItems" in obj:

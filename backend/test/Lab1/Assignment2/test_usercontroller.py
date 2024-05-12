@@ -4,8 +4,17 @@ from src.controllers.usercontroller import UserController
 
 
 @pytest.mark.unit
-@pytest.mark.parametrize('email, obj', [('jandoe@test.se', {'Name': 'Jane'}), ('jan.doe@test.se', {'Name': 'Jane'})])
-def test_id1_2_get_user_by_email_success(email, obj):
+@pytest.mark.parametrize('email, obj', [('jandoe@test.se', {'Name': 'Jane'})])
+def test_id1_get_user_by_email_success(email, obj):
+    mockedDAO = MagicMock()
+    mockedDAO.find.return_value = [obj]
+    uc = UserController(dao=mockedDAO)
+    
+    assert uc.get_user_by_email(email) == obj
+
+@pytest.mark.unit
+@pytest.mark.parametrize('email, obj', [('jan.doe@test.se', {'Name': 'Jane'})])
+def test_id2_get_user_by_email_success(email, obj):
     mockedDAO = MagicMock()
     mockedDAO.find.return_value = [obj]
     uc = UserController(dao=mockedDAO)
@@ -14,8 +23,42 @@ def test_id1_2_get_user_by_email_success(email, obj):
 
 
 @pytest.mark.unit
-@pytest.mark.parametrize('email, obj', [('@test.se', ValueError), ('test.se', ValueError), ('se', ValueError), ('jan@test', ValueError), ('jan@.se', ValueError)])
-def test_id3_7_get_user_by_email_failure(email, obj):
+@pytest.mark.parametrize('email, obj', [('@test.se', ValueError)])
+def test_id3_get_user_by_email_failure(email, obj):
+    mockedDAO = MagicMock()
+    mockedDAO.find.return_value = [obj]
+    uc = UserController(dao=mockedDAO)
+    with pytest.raises(ValueError) as excinfo:  
+        uc.get_user_by_email(email)
+
+    assert str(excinfo.value) == 'Error: invalid email address'
+
+@pytest.mark.unit
+@pytest.mark.parametrize('email, obj', [('test.se', ValueError), ('se', ValueError)])
+def test_id4_get_user_by_email_failure(email, obj):
+    mockedDAO = MagicMock()
+    mockedDAO.find.return_value = [obj]
+    uc = UserController(dao=mockedDAO)
+    with pytest.raises(ValueError) as excinfo:  
+        uc.get_user_by_email(email)
+
+    assert str(excinfo.value) == 'Error: invalid email address'
+
+@pytest.mark.unit
+@pytest.mark.parametrize('email, obj', [('jan@test', ValueError)])
+def test_id5_get_user_by_email_failure(email, obj):
+    mockedDAO = MagicMock()
+    mockedDAO.find.return_value = [obj]
+    uc = UserController(dao=mockedDAO)
+    with pytest.raises(ValueError) as excinfo:  
+        uc.get_user_by_email(email)
+
+    assert str(excinfo.value) == 'Error: invalid email address'
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize('email, obj', [('jan@.se', ValueError)])
+def test_id6_get_user_by_email_failure(email, obj):
     mockedDAO = MagicMock()
     mockedDAO.find.return_value = [obj]
     uc = UserController(dao=mockedDAO)
@@ -41,7 +84,7 @@ def test_id9_get_user_by_email_Double(capsys):
     mockedDAO = MagicMock()
     mockedDAO.find.return_value = [user1, user2]
     uc = UserController(dao=mockedDAO)
-    uc.get_user_by_email('jandoe@test.se')
+    assert uc.get_user_by_email('jandoe@test.se') == user1
     captured = capsys.readouterr()
     assert captured.out == 'Error: more than one user found with mail jandoe@test.se\n'
 
