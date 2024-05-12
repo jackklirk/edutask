@@ -6,6 +6,7 @@ from src.controllers.usercontroller import UserController
 @pytest.mark.unit
 @pytest.mark.parametrize('email, obj', [('jandoe@test.se', {'Name': 'Jane'})])
 def test_id1_get_user_by_email_success(email, obj):
+
     mockedDAO = MagicMock()
     mockedDAO.find.return_value = [obj]
     uc = UserController(dao=mockedDAO)
@@ -52,13 +53,14 @@ def test_id5_get_user_by_email_failure(email, obj):
     uc = UserController(dao=mockedDAO)
     with pytest.raises(ValueError) as excinfo:  
         uc.get_user_by_email(email)
-
+        
     assert str(excinfo.value) == 'Error: invalid email address'
 
 
 @pytest.mark.unit
 @pytest.mark.parametrize('email, obj', [('jan@.se', ValueError)])
 def test_id6_get_user_by_email_failure(email, obj):
+
     mockedDAO = MagicMock()
     mockedDAO.find.return_value = [obj]
     uc = UserController(dao=mockedDAO)
