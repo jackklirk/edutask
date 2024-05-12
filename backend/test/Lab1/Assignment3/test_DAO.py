@@ -75,6 +75,9 @@ class TestCreation:
         assert ('_id' in create_return) == True
         assert create_return['description'] == test_data['description']
         assert create_return['mock'] == test_data['mock']
+        # Confirms that the object exists in the collection
+        assert sut.collection.find({'_id': create_return['_id']}, limit = 1) != None
+
 
     @pytest.mark.integration
     def test_id2_creation_success_2(self, sut):
@@ -89,6 +92,8 @@ class TestCreation:
         assert ('_id' in create_return) == True
         assert create_return['description'] == test_data['description']
         assert create_return['PN'] == test_data['PN']
+        # Confirms that the object exists in the collection
+        assert sut.collection.find({'_id': create_return['_id']}) != None
 
     @pytest.mark.integration
     def test_id3_creation_fail_1(self, sut):
