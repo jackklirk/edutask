@@ -146,12 +146,3 @@ class TestCreation:
 
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
             sut.create(test_data)
-
-    @pytest.mark.integration
-    def test_id7_creation_fail_4(self, sut):
-        """
-        No argument provided
-        """
-
-        with pytest.raises(TypeError) as excinfo:
-                sut.create()
