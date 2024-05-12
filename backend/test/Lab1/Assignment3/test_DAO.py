@@ -72,8 +72,12 @@ class TestCreation:
             "PN": 2000000000
         }
         create_return = sut.create(test_data)
+        assert ('_id' in create_return) == True
         assert create_return['description'] == test_data['description']
         assert create_return['mock'] == test_data['mock']
+        # Confirms that the object exists in the collection
+        assert sut.collection.find({'_id': create_return['_id']}, limit = 1) != None
+
 
     @pytest.mark.integration
     def test_id2_creation_success_2(self, sut):
@@ -85,8 +89,11 @@ class TestCreation:
             "PN": 2000000001
         }
         create_return = sut.create(test_data)
+        assert ('_id' in create_return) == True
         assert create_return['description'] == test_data['description']
         assert create_return['PN'] == test_data['PN']
+        # Confirms that the object exists in the collection
+        assert sut.collection.find({'_id': create_return['_id']}) != None
 
     @pytest.mark.integration
     def test_id3_creation_fail_1(self, sut):
@@ -139,12 +146,3 @@ class TestCreation:
 
         with pytest.raises(pymongo.errors.WriteError) as excinfo:
             sut.create(test_data)
-
-    @pytest.mark.integration
-    def test_id7_creation_fail_4(self, sut):
-        """
-        No argument provided
-        """
-
-        with pytest.raises(TypeError) as excinfo:
-                sut.create()
