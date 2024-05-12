@@ -72,6 +72,7 @@ class TestCreation:
             "PN": 2000000000
         }
         create_return = sut.create(test_data)
+        assert ('_id' in create_return) == True
         assert create_return['description'] == test_data['description']
         assert create_return['mock'] == test_data['mock']
 
@@ -85,6 +86,7 @@ class TestCreation:
             "PN": 2000000001
         }
         create_return = sut.create(test_data)
+        assert ('_id' in create_return) == True
         assert create_return['description'] == test_data['description']
         assert create_return['PN'] == test_data['PN']
 
