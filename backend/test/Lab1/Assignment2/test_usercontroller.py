@@ -29,10 +29,10 @@ def test_id3_7_get_user_by_email_failure(email, obj):
 @pytest.mark.parametrize('email, obj', [('Hello@World.se', None)])
 def test_id8_get_user_by_email_None(email, obj):
     mockedDAO = MagicMock()
-    mockedDAO.find.return_value = [None]
+    mockedDAO.find.return_value = []
     uc = UserController(dao=mockedDAO)
 
-    assert uc.get_user_by_email(email) == obj
+    assert uc.get_user_by_email(email) == None
 
 @pytest.mark.unit
 def test_id9_get_user_by_email_Double(capsys):
